@@ -1,56 +1,58 @@
-let playerScore = 0
-let computerScore = 0
-const buttons = document.querySelectorAll('input')
+//need a function that returns one of 3 randoms strings, rock , paper , scissor
+//should be done using a the math method ,
 
-function computerPlay() {
-    let choices = ['rock', 'paper', 'scissors']
-    return choices[Math.floor(Math.random() * choices.length)]
+function computerPlay(x) {
+  let choice = ['scissor', 'rock', 'paper'];
+  return choice[Math.floor(Math.random() * choice.length)];
+}
+//In this function want the user to select his choice from the html options
+//want his choice to be the results of this function
+//bring back the value in the input I
+
+function userPlay(option) {
+  let playerSelection = option;
+  let computerSelection = computerPlay();
+  playRound(computerSelection, playerSelection);
+}
+// console.log(userPlay('Rock-Paper-Scissors-Lizard-Spock'));
+//make a functiomn that plays a single roound
+//needs the human action, need the computer action,
+//needs if statement to have a winner
+let computerCount = 0;
+let playerCount = 0;
+let result = document.getElementById('result');
+
+function playRound(computer, user) {
+  if (
+    (computer == 'scissor' && user == 'rock') ||
+    (computer == 'rock' && user == 'paper') ||
+    (computer == 'paper' && user == 'scissors')
+  ) {
+    playerCount++;
+    result.innerHTML = `Player won !! ${user} beats ${computer} Player score is  ${playerCount} and Computer score is ${computerCount}`;
+    console.log(result);
+  } else {
+    computerCount++;
+    result.innerHTML = `Computer Won!! ${computer} beats ${user} Player score is  ${playerCount} and Computer score is ${computerCount}`;
+  }
+
+  if (playerCount >= 5) {
+    result.innerHTML = 'Player won the game, reset the Game!!';
+  } else if (computerCount >= 5) {
+    result.innerHTML = 'Computer won the game ';
+  }
 }
 
-function disableButtons() {
-    buttons.forEach(elem => {
-        elem.disabled = true
-    })
+function clearResult() {
+  result.innerHTML = '';
+  computerCount = 0;
+  playerCount = 0;
 }
 
-function playRound(playerSelection) {
-    let computerSelection = computerPlay()
-    let result = ""
-
-    if ((playerSelection == 'rock' && computerSelection == 'scissors') ||
-        (playerSelection == 'scissors' && computerSelection == 'paper') ||
-        (playerSelection == 'paper' && computerSelection == 'rock')) {
-        
-        playerScore += 1
-        result = ('You win! ' + playerSelection + ' beats ' + computerSelection
-            + "<br><br>Player score: " + playerScore + "<br>Computer score: " + computerScore)
-
-        if (playerScore == 5) {
-            result += '<br><br>You won the game! Reload the page to play again'
-            disableButtons()
-        }
-    }
-    else if (playerSelection == computerSelection) {
-        result = ('It\'s a tie. You both chose ' + playerSelection
-            + "<br><br>Player score: " + playerScore + "<br>Computer score: " + computerScore)
-    }
-    else {
-        computerScore += 1
-        result = ('You lose! ' + computerSelection + ' beats ' + playerSelection
-            + "<br><br>Player score: " + playerScore + "<br>Computer score: " + computerScore)
-
-        if (computerScore == 5) {
-            result += '<br><br>I won the game! Reload the page to play again'
-            disableButtons()
-        }
-    }
-
-    document.getElementById('result').innerHTML = result
-    return
-}
-
-buttons.forEach(button =>{
-    button.addEventListener('click', function(){
-        playRound(button.value)
-    })
-})
+//i need to keep score of the game
+// counting the amount of wins and lost from user , computer
+// once it get to 5 retrun win done game
+// need a variable that holds the number of wins
+// need one for each type computercount and usercount
+// need a if statment to present what happens when the counts get to 5
+// need to reset the count once it reaches 5
